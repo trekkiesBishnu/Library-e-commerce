@@ -6,6 +6,7 @@ class CommonController extends Controller{
 
     public function validator($data, $rules)
     {
+        
         $validate = Validator::make($data, $rules);
         $error_messages = $validate->errors()->first();
         if($validate->fails()){

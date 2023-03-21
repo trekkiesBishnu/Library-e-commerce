@@ -4,17 +4,30 @@
 @section('content')
 
 <div class="row">
-
-
-
-    <h3>My Order Details
-
-    </h3>
+    <h3>My Order Details </h3>
+    <form action="{{ route('filter_order') }}" method="post">
+        @csrf
+        <div class="row">
+            <div class="col-md-3">
+                <label for="">Filter By Date</label>
+                <input type="date" name="date" value="{{ date('Y-m-d') }}"   class="form-control">
+            </div>
+            <div class="col-md-3">
+                <label for="">Filter By Status</label>
+                <select name="status" class="form-control">
+                    <option value="">Select Status</option>
+                    @foreach ($status as $statu)
+                    <option value="{{ $statu->name }}"  >{{ $statu->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-md-6">
+                <button type="submit" class="btn btn-primary">Filter</button>
+                <a href="{{ route('orderList') }} " class="btn btn-success">Reset</a>
+            </div>
+        </div>
+    </form>
     <hr>
-
-
-
-
 </div>
 <div class="row">
     <div class="container">

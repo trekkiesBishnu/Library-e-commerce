@@ -23,9 +23,6 @@ class BookController extends Controller
 
     }
     public function store(Request $request){
-       
-
-
         $data=$request->validate([
             'name'=>'required|string',
             'slug'=>'required|string',
@@ -37,10 +34,7 @@ class BookController extends Controller
             'status'=>'nullable',
             'price'=>'required',
             'special'=>'nullable'
-
-            
         ]);
-       
         $this->bookRepo->store($data);
         return redirect()->route('book')->with('message','Book Added Successfully');
     }
@@ -64,9 +58,7 @@ class BookController extends Controller
             'status'=>'nullable',
             'price'=>'required',
             'special'=>'nullable'
-
         ]);
-    //  dd($request->all());
         $this->bookRepo->update($data,$id);
         return redirect()->route('book')->with('message','Book updated Successfully');
 

@@ -25,7 +25,7 @@ class CartController extends Controller
                 'name'=>$book->name,
                 'price'=>$book->price,
                 'quantity'=>$quantity,
-                'url'=>route('product_detail',$book->id),
+                'url'=>route('product_detail',$book->slug),
                 'image'=>$book->getFirstMediaUrl('book_image')
             ];
         }

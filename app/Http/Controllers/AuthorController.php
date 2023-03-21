@@ -1,9 +1,13 @@
 <?php
 namespace App\Http\Controllers;
-use App\Repositories\AuthorRepositoryInterface;
 use Illuminate\Http\Request;
+use App\Http\Controllers\CommonController;
+use App\Repositories\AuthorRepositoryInterface;
+use Doctrine\Inflector\Rules\Spanish\Rules;
+
 class AuthorController extends Controller
 {
+  
     protected $authorRepo;
     public function __construct(AuthorRepositoryInterface $authorRepo) {
         $this->authorRepo= $authorRepo;
@@ -16,14 +20,23 @@ class AuthorController extends Controller
         return view('admin.author.create');
     }
     public function store(Request $request){
-        $data=$request->validate([
+       
+        $rules=[
             'name'=>'required|string',
             'description'=>'required',
             'address'=>'required',
             'phone'=>'required',
-        ]);
-        $this->authorRepo->store($data);
-        return redirect()->route('author')->with('message','Author Added Successfully');
+        ];
+        $data=$request->validate($rules);
+        $test=$this->validate_data($data,$rules);
+        // dd($test['response']);
+        if($test['response']==true){
+            $this->authorRepo->store($data);
+            return redirect()->route('author')->with('message','Author Added Successfully');
+        }
+        else{
+            return redirect()->back()->with('message','SomeThing Went Wrong!');
+        }
 
     }
     public function edit($id){
@@ -31,12 +44,15 @@ class AuthorController extends Controller
         return view('admin.author.edit',compact('author'));
     }
     public function update(Request $request,$id){
-        $data=$request->validate([
+        $rules=[
             'name'=>'required|string',
             'description'=>'required',
             'address'=>'required',
             'phone'=>'required',
-        ]);
+        ];
+        $data=$request->validate($rules);
+        $author=$this-> validate_data($data , $rules);
+       
         $this->authorRepo->update($data,$id);
         return redirect()->route('author')->with('message','Author Updated Successfully');
 
@@ -46,4 +62,11 @@ class AuthorController extends Controller
         return redirect()->route('author')->with('message','Author Deleted Successfully');
 
     }
+    public function validate_data($data , $rules){
+        $common_ctrl = new CommonController();
+        return $common_ctrl->validator($data,$rules);
+
+    }
+    
+   
 }

@@ -8,6 +8,7 @@ use App\Models\Status;
 use App\Models\OrderItem;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use App\Notifications\OrderNotify;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\OrderFormRequest;
@@ -88,12 +89,12 @@ class OrderController extends Controller
     }
     public function orderList(){
         $status=Status::all();
-        $order=Order::latest()->get();
+        $order=Order::all();
+       
         return view('frontend.order.order',compact('order','status'));
     }
     public function orderItemList(){
         $order=OrderItem::all();
-      
         return view('frontend.order.orderItem',compact('order'));
     }
     // public function orderviewDelete($id){
@@ -124,5 +125,15 @@ class OrderController extends Controller
         $common_ctrl = new CommonController();
         return $common_ctrl->validator($data,$rules);
 
+    }
+    public function filter_order(Request $request){
+        $status=Status::all();
+        $todayDate=Carbon::now()->format('Y-m-d');
+        $order=Order::when($request->date!=null,function ($q) use($request) {
+            return $q->whereDate('created_at',$request->date);
+        })->when($request->status !=null,function ($q) use($request){
+            return $q->where('status_message',$request->status);
+        })->get();
+        return view('frontend.order.order',compact('order','status'));
     }
 }

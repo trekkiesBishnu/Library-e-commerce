@@ -4,7 +4,7 @@
 @section('content')
 
 <div class="row">
-    <div class="py-5">
+   
     <div class="col-md-12">
         @if(session('message'))
     <h5 class="alert alert-success"> <small>{{ session('bookQuantity') }}</small> {{session('message')}}</h5>
@@ -14,7 +14,7 @@
         <h3>My Cart
 
         </h3>
-        <hr>
+       
 
             </div>
 

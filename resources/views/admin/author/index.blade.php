@@ -39,10 +39,10 @@
                             <tr>
                             <td>{{$authortItem->id}}</td>
                             <td>{{$authortItem->name}}</td>
-                            <td>{{$authortItem->address}}</td>
+                            <td>{{ $authortItem->address }}</td>
                         
                             <td>{{$authortItem->phone}}</td>
-                            <td>{{$authortItem->description}}</td>
+                            <td>{!! $authortItem->description !!}</td>
                         
 
                             <td>
