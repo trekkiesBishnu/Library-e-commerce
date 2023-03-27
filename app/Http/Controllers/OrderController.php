@@ -13,6 +13,8 @@ use App\Notifications\OrderNotify;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\OrderFormRequest;
 use Illuminate\Support\Facades\Notification;
+use App\Models\User;
+use App\Notifications\OrderPlacedNotify;
 
 class OrderController extends Controller
 {
@@ -71,14 +73,29 @@ class OrderController extends Controller
                     $book->save();
                     session()->forget('cart');
                 }
-        }
-       
-        Notification::route('mail', 'admin@gmail.com')->notify(new OrderNotify($data));
+                $test['order_id']=$order->id;
+                $test['title']="Order Placed";
+                $test['name']=Auth::user()->name;
+                $test['email']=Auth::user()->email;
+                $test['phone']=$data['phone'];
+                $test['address']=$data['address'];
+                $test['pincode']=$data['pincode'];
+                $test['status_message']='in progress';
+                $test['payment_mode']=$data['payment_mode'];
+                $test ['total']=$totalOI;
 
+                Notification::route('mail', 'admin@gmail.com')->notify(new OrderNotify($data));
+                Notification::send( User::where('id',10)->first(), new OrderPlacedNotify($test));
+        
+            }
+        
+       
+        
         if($data['payment_mode']=='ESEWA'){
             $total=$order->total;
             $orderId=$order->id;
             $pid=$order->order_id;
+            
  
             return view('frontend.esewa.redirect',compact('total','pid','orderId'));
         }

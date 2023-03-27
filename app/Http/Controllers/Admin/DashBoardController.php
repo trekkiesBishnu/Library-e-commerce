@@ -10,10 +10,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Models\OrderItem;
 
 class DashBoardController extends Controller
 {
     public function index(){
+        // dd(Auth::user()->notifications[0]['data']['order_id']);
         $totalBook=Book::count();
         $totalOrder=Order::count();
         $totalBookCategory=Category::count();
@@ -34,5 +37,15 @@ class DashBoardController extends Controller
 
         return view('admin.home',compact('totalBook','totalOrder','totalBookCategory','totalDailyOrder',
                                             'user','admin','totalMonthOrder','totalYEAROrder','completeOrder'));
+    }
+
+    public function notification($id){
+        $notification=Order::find($id);
+        $user=User::find(10);
+        $orderItems=OrderItem::where('order_id',$id)->get();
+       
+
+        $user->unreadNotifications()->update(['read_at' => now()]);
+        return view('admin.order.notification',compact('notification','orderItems'));
     }
 }

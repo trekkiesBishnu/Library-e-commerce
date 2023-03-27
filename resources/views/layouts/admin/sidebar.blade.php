@@ -60,11 +60,11 @@
           </ul>
         </div> --}}
       </li>
-      {{-- <li class="nav-item">
-        <a class="nav-link" href="documentation/documentation.html">
+      <li class="nav-item">
+        <a class="nav-link" href="{{ route('roles') }}">
           <i class="mdi mdi-file-document-box-outline menu-icon"></i>
-          <span class="menu-title">Documentation</span>
+          <span class="menu-title">Role And Permission</span>
         </a>
-      </li> --}}
+      </li>
     </ul>
   </nav>

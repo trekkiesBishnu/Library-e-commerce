@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 use App\Models\Author;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Controllers\CommonController;
 use App\Repositories\BookRepositoryInterface;
 
 class BookController extends Controller
@@ -23,7 +24,8 @@ class BookController extends Controller
 
     }
     public function store(Request $request){
-        $data=$request->validate([
+
+        $rules=[
             'name'=>'required|string',
             'slug'=>'required|string',
             'description'=>'required',
@@ -34,7 +36,9 @@ class BookController extends Controller
             'status'=>'nullable',
             'price'=>'required',
             'special'=>'nullable'
-        ]);
+        ];
+        $data=$request->validate($rules);
+        $this
         $this->bookRepo->store($data);
         return redirect()->route('book')->with('message','Book Added Successfully');
     }
@@ -68,4 +72,10 @@ class BookController extends Controller
         return redirect()->route('book')->with('message','Book Deleted Successfully');
 
     }
+    public function validate_data($data , $rules){
+        $common_ctrl = new CommonController();
+        return $common_ctrl->validator($data,$rules);
+
+    }
+
 }

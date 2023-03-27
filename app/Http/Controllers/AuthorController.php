@@ -28,16 +28,10 @@ class AuthorController extends Controller
             'phone'=>'required',
         ];
         $data=$request->validate($rules);
-        $test=$this->validate_data($data,$rules);
-        // dd($test['response']);
-        if($test['response']==true){
+        // $this->validate_data($data,$rules);
+       
             $this->authorRepo->store($data);
             return redirect()->route('author')->with('message','Author Added Successfully');
-        }
-        else{
-            return redirect()->back()->with('message','SomeThing Went Wrong!');
-        }
-
     }
     public function edit($id){
         $author=$this->authorRepo->find($id);
@@ -48,15 +42,15 @@ class AuthorController extends Controller
             'name'=>'required|string',
             'description'=>'required',
             'address'=>'required',
-            'phone'=>'required',
+            'phone'=>'required', 
         ];
-        $data=$request->validate($rules);
-        $author=$this-> validate_data($data , $rules);
-       
+          $data=$request->all();
+          $request->validate($rules);
+
         $this->authorRepo->update($data,$id);
         return redirect()->route('author')->with('message','Author Updated Successfully');
-
-    }
+       
+        }
     public function destroy($id){
         $this->authorRepo->destroy($id);
         return redirect()->route('author')->with('message','Author Deleted Successfully');

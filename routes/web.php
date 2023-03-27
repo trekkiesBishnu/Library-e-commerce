@@ -13,8 +13,9 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\OrderItemController;
 
-use App\Http\Controllers\Session\SessionCartController;
+use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\DashBoardController;
+use App\Http\Controllers\Session\SessionCartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,7 +48,7 @@ Route::prefix('admin/')->middleware(['auth'])->group(function () {
     //     Route::put('category/update/{id}', 'update')->name('category.update')->middleware(['role:Admin']);
     //     Route::get('category/destroy/{id}', 'destroy')->name('category.destroy')->middleware(['role:Admin']);
     // });
-        Route::get('home',[DashBoardController::class,'index']);
+        Route::get('home',[DashBoardController::class,'index'])->name('admin.dashboard');
 
     Route::controller(CategoryController::class)->group(function () {
         Route::get('category', 'index')->name('category')->middleware(['permission:view.category']);
@@ -81,6 +82,17 @@ Route::prefix('admin/')->middleware(['auth'])->group(function () {
         Route::put('author/update/{id}', 'update')->name('author.update')->middleware(['permission:update.author']);
         Route::get('author/destroy/{id}', 'destroy')->name('author.destroy')->middleware(['permission:delete.author']);
     });
+
+    // Role in admin panel 
+    Route::controller(RoleController::class)->group(function(){
+        Route::get('role','index')->name('roles');
+        Route::get('role/create','create')->name('role.create');
+        Route::post('role','store')->name('role.store');
+        Route::get('role/edit/{id}','edit')->name('role.edit');
+        Route::put('role/update/{id}','update')->name('role.update');
+        Route::get('role/delete/{id}','delete')->name('role.delete');
+    });
+
     Route::get('/user',[UserController::class,'index'])->name('user')->middleware('role:Admin');
     // Route::controller(RecordController::class)->group(function () {
     //     Route::get('record', 'index')->name('record')->middleware(['role:Admin||User']);
@@ -130,6 +142,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('deleteOrderItem/{id}',[OrderController::class,'deleteOrderItem'])->name('deleteOrderItem');
     Route::post('statusChangeOrder/{id}',[OrderController::class,'statusChangeOrder'])->name('statusChangeOrder');
     Route::get('thankyou',[OrderController::class,'thankyou'])->name('thankyou'); 
+
+    //notification in admin dash
+    Route::get('admin/notification/{id}',[DashBoardController::class,'notification'])->name('order_notify');
     
 Route::get('/user-profile', [App\Http\Controllers\Frontend\UserController::class, 'userProfile'])->name('userProfile');
 Route::post('/user-profile/update', [App\Http\Controllers\Frontend\UserController::class, 'userProfileUpdate'])->name('profile.user');

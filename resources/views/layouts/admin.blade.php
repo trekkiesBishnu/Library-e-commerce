@@ -18,6 +18,12 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
+
+    {{-- modal  --}}
+    {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+   --}}
+
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -41,6 +47,7 @@
   <!-- End plugin css for this page -->
   <!-- inject:css -->
   <link rel="stylesheet" href="{{ asset('admin/css/style.css') }}">
+  {{-- <link rel="stylesheet" href="{{ asset('admin/css/modal.css') }}"> --}}
   <!-- endinject -->
   <link rel="shortcut icon" href="{{ asset('admin/images/favicon.png ')}}" />
    {{-- for summernote  --}}

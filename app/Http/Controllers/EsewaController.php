@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\User;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
@@ -56,6 +57,8 @@ class EsewaController extends Controller
                 $data['pincode']=$order->pincode;
                 $data['payment_mode']=$order->payment_mode;
                 Notification::route('mail', 'admin@gmail.com')->notify(new OrderNotify($data));
+                Notification::send( User::where('id',10)->first(), new OrderPlacedNotify());
+
                 return redirect()->route('thankyou')->with('message','Your Order successfully Placed ');
             }else{
               
