@@ -15,6 +15,7 @@ use App\Http\Controllers\OrderItemController;
 
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\DashBoardController;
+use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Session\SessionCartController;
 
 /*
@@ -93,7 +94,18 @@ Route::prefix('admin/')->middleware(['auth'])->group(function () {
         Route::get('role/delete/{id}','delete')->name('role.delete');
     });
 
+    // Permission in admin panel 
+    Route::controller(PermissionController::class)->group(function(){
+        Route::get('permission','index')->name('permissions');
+        Route::get('permission/create','create')->name('permission.create');
+        Route::post('permission','store')->name('permission.store');
+        Route::get('permission/edit/{id}','edit')->name('permission.edit');
+        Route::put('permission/update/{id}','update')->name('permission.update');
+        Route::get('permission/delete/{id}','delete')->name('permission.delete');
+    });
+
     Route::get('/user',[UserController::class,'index'])->name('user')->middleware('role:Admin');
+    Route::post('/user/role/{id}',[UserController::class,'RoleChange'])->name('change_role')->middleware('role:Admin');
     // Route::controller(RecordController::class)->group(function () {
     //     Route::get('record', 'index')->name('record')->middleware(['role:Admin||User']);
     //     Route::get('record/create', 'create')->name('record.create')->middleware(['role:Admin']);

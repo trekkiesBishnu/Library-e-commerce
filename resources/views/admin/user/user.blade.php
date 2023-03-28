@@ -26,6 +26,8 @@
                                         <th>ID</th>
                                         <th>User Name</th>
                                         <th>Email</th>
+                                        <th>Change Role</th>
+                                        <th>Change Permission</th>
                                         
                                     </tr>
                                 </thead>
@@ -36,6 +38,19 @@
                                     <td>{{$userItem->id}}</td>
                                     <td>{{$userItem->name}}</td>
                                     <td>{{$userItem->email}}</td>
+                                    <td>
+                                        <form action="{{ route('change_role',$userItem->id) }}" method="POST">
+                                            @csrf
+                                            <select name="role_name" class="form-control">
+                                                @foreach ($roles as $role)
+                                                <option value="">Select Role</option>
+                                                <option value="{{ $role->name }}">{{ $role->name }}</option>
+                                                    
+                                                @endforeach
+                                            </select>
+                                            <button type="submit">Update</button>
+                                        </form>
+                                    </td>
                                
                                     
                                     </tr>

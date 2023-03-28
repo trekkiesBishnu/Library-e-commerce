@@ -63,7 +63,13 @@
       <li class="nav-item">
         <a class="nav-link" href="{{ route('roles') }}">
           <i class="mdi mdi-file-document-box-outline menu-icon"></i>
-          <span class="menu-title">Role And Permission</span>
+          <span class="menu-title">Roles </span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ route('permissions') }}">
+          <i class="mdi mdi-file-document-box-outline menu-icon"></i>
+          <span class="menu-title">Permissions </span>
         </a>
       </li>
     </ul>

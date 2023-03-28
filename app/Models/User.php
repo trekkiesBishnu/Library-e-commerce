@@ -29,7 +29,8 @@ class User extends Authenticatable
     public function userDetail(){
         return $this->belongsTo(UserDetail::class);
     }
-    
+
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -49,4 +50,31 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // public function removeRole(string $roleName): bool
+    // {
+    //     $role = Role::where('name', $roleName)->first();
+    //     if (!$role) {
+    //         return false;
+    //     }
+    //     $result = $this->roles()->detach($role->id);
+    //     return $result > 0;
+    // }
+    // /**
+    //  * The roles that belong to the user.
+    //  */
+    // public function roles()
+    // {
+    //     return $this->belongsToMany(Role::class);
+    // }
+    public function removeRole($role)
+    {
+        $this->roles()->detach($this->getStoredRole($role));
+
+        $this->load('roles');
+
+        $this->forgetCachedPermissions();
+
+        return $this;
+    }
 }
