@@ -34,7 +34,6 @@ class RoleController extends Controller
     }
     public function edit($id){
         $role=Role::find($id);
-        // dd($addPermissions);
         $permissions=Permission::all();
         return view('admin.role.edit',compact('role','permissions'));
     }
