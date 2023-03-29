@@ -8,9 +8,9 @@
     @endif
             <div class="container py-3 col-md-8">
         <h3>Roles
-            {{-- @can('create.book') --}}
-                <a class="float-end btn btn-primary" href="{{route('role.create')}}">Add Author</a>
-                {{-- @endcan --}}
+            @can('create.role')
+                <a class="float-end btn btn-primary" href="{{route('role.create')}}">Add Role</a>
+                @endcan
         </h3>
 
             </div>
@@ -25,8 +25,9 @@
                     <table  class="table table-bordered table-striped ">
                         <thead>
                             <tr>
-                                <th>ID</th>
+                               
                                 <th>Name</th>
+                                <th>permission</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -34,13 +35,21 @@
                             @foreach ($roles as $role)
 
                             <tr>
-                            <td>{{$role->id}}</td>
+                          
                             <td>{{$role->name}}</td>
-                             {{-- @can('update.author') --}}
+                            <td class="py-4 px-6 border-b border-grey-light">
+                                    @foreach($role->permissions as $permission)
+                                      <span class="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none  bg-gray-500 rounded-full">{{ $permission->name }}</span>
+                                    @endforeach
+                                </td>
+           
                              <td>
-                                <a class="btn btn-primary btn-sm" href="{{route('role.edit',$role->id)}}">Edit</a>
+                                 @can('update.role')
+                                    <a class="btn btn-primary btn-sm" href="{{route('role.edit',$role->id)}}">Edit</a>
+                                @endcan
+                                @can('delete.role')
                                     <a class="btn btn-danger btn-sm" href="{{ route('role.delete',$role->id) }}">Delete</a>
-                    
+                                 @endcan
                            
                                 </td>
                             </tr>

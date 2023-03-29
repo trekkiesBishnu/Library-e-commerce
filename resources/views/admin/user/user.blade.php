@@ -42,8 +42,9 @@
                                         <form action="{{ route('change_role',$userItem->id) }}" method="POST">
                                             @csrf
                                             <select name="role_name" class="form-control">
-                                                @foreach ($roles as $role)
+                                                
                                                 <option value="">Select Role</option>
+                                                @foreach ($roles as $role)
                                                 <option value="{{ $role->name }}">{{ $role->name }}</option>
                                                     
                                                 @endforeach

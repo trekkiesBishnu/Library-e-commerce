@@ -29,9 +29,7 @@ use App\Http\Controllers\Session\SessionCartController;
 |
 */
 
-Route::get('/home', function () {
-    return view('frontend.home');
-});
+
 
 
  Route::get('/khalti',[OrderItemController::class,'khalti'])->name('khalti');
@@ -49,7 +47,7 @@ Route::prefix('admin/')->middleware(['auth'])->group(function () {
     //     Route::put('category/update/{id}', 'update')->name('category.update')->middleware(['role:Admin']);
     //     Route::get('category/destroy/{id}', 'destroy')->name('category.destroy')->middleware(['role:Admin']);
     // });
-        Route::get('home',[DashBoardController::class,'index'])->name('admin.dashboard');
+        Route::get('home',[DashBoardController::class,'index'])->name('admin.dashboard')->middleware(['permission:admin.dashboard']);
 
     Route::controller(CategoryController::class)->group(function () {
         Route::get('category', 'index')->name('category')->middleware(['permission:view.category']);
@@ -86,22 +84,22 @@ Route::prefix('admin/')->middleware(['auth'])->group(function () {
 
     // Role in admin panel 
     Route::controller(RoleController::class)->group(function(){
-        Route::get('role','index')->name('roles');
-        Route::get('role/create','create')->name('role.create');
-        Route::post('role','store')->name('role.store');
-        Route::get('role/edit/{id}','edit')->name('role.edit');
-        Route::put('role/update/{id}','update')->name('role.update');
-        Route::get('role/delete/{id}','delete')->name('role.delete');
+        Route::get('role','index')->name('roles')->middleware(['permission:view.role']);
+        Route::get('role/create','create')->name('role.create')->middleware(['permission:create.role']);
+        Route::post('role','store')->name('role.store')->middleware(['permission:create.role']);
+        Route::get('role/edit/{id}','edit')->name('role.edit')->middleware(['permission:update.role']);
+        Route::put('role/update/{id}','update')->name('role.update')->middleware(['permission:update.role']);
+        Route::get('role/delete/{id}','delete')->name('role.delete')->middleware(['permission:delete.role']);
     });
 
     // Permission in admin panel 
     Route::controller(PermissionController::class)->group(function(){
-        Route::get('permission','index')->name('permissions');
-        Route::get('permission/create','create')->name('permission.create');
-        Route::post('permission','store')->name('permission.store');
-        Route::get('permission/edit/{id}','edit')->name('permission.edit');
-        Route::put('permission/update/{id}','update')->name('permission.update');
-        Route::get('permission/delete/{id}','delete')->name('permission.delete');
+        Route::get('permission','index')->name('permissions')->middleware(['permission:view.permission']);
+        Route::get('permission/create','create')->name('permission.create')->middleware(['permission:create.permission']);
+        Route::post('permission','store')->name('permission.store')->middleware(['permission:create.permission']);
+        Route::get('permission/edit/{id}','edit')->name('permission.edit')->middleware(['permission:update.permission']);
+        Route::put('permission/update/{id}','update')->name('permission.update')->middleware(['permission:update.permission']);
+        Route::get('permission/delete/{id}','delete')->name('permission.delete')->middleware(['permission:delete.permission']);
     });
 
     Route::get('/user',[UserController::class,'index'])->name('user')->middleware('role:Admin');
@@ -142,6 +140,10 @@ Route::get('book/{slug}', [App\Http\Controllers\FrontendController::class, 'prod
  Route::get('cart-delete/{id}',[CartController::class,'cartdelete'])->name('cartdelete');
 
 Route::middleware(['auth'])->group(function () {
+    //home
+    Route::get('/home', function () {
+        return view('frontend.home');
+    });
 
     Route::get('checkout',[OrderController::class,'checkout'])->name('checkout');
     // for esewa 
@@ -149,19 +151,19 @@ Route::middleware(['auth'])->group(function () {
    
     Route::post('orderAdded',[OrderController::class,'orderAdded'])->name('orderAdded');
 
-    Route::post('orderview/{id}',[OrderController::class,'orderview'])->name('orderview');
-    Route::post('order/delete/{id}',[OrderController::class,'orderviewDelete'])->name('orderview.delete');
-    Route::post('deleteOrderItem/{id}',[OrderController::class,'deleteOrderItem'])->name('deleteOrderItem');
-    Route::post('statusChangeOrder/{id}',[OrderController::class,'statusChangeOrder'])->name('statusChangeOrder');
+    Route::post('orderview/{id}',[OrderController::class,'orderview'])->name('orderview')->middleware(['permission:view.order']);
+    Route::post('order/delete/{id}',[OrderController::class,'orderviewDelete'])->name('orderview.delete')->middleware(['permission:delete.order']);
+    Route::post('deleteOrderItem/{id}',[OrderController::class,'deleteOrderItem'])->name('deleteOrderItem')->middleware(['permission:update.order']);
+    Route::post('statusChangeOrder/{id}',[OrderController::class,'statusChangeOrder'])->name('statusChangeOrder')->middleware(['permission:update.order']);
     Route::get('thankyou',[OrderController::class,'thankyou'])->name('thankyou'); 
 
     //notification in admin dash
     Route::get('admin/notification/{id}',[DashBoardController::class,'notification'])->name('order_notify');
-    
-Route::get('/user-profile', [App\Http\Controllers\Frontend\UserController::class, 'userProfile'])->name('userProfile');
-Route::post('/user-profile/update', [App\Http\Controllers\Frontend\UserController::class, 'userProfileUpdate'])->name('profile.user');
-Route::get('/user-profile/change-password', [App\Http\Controllers\Frontend\UserController::class, 'changepassword'])->name('change-password');
-Route::post('/user-profile/change-password', [App\Http\Controllers\Frontend\UserController::class, 'updatePassword'])->name('change.password');
+            
+    Route::get('/user-profile', [App\Http\Controllers\Frontend\UserController::class, 'userProfile'])->name('userProfile');
+    Route::post('/user-profile/update', [App\Http\Controllers\Frontend\UserController::class, 'userProfileUpdate'])->name('profile.user');
+    Route::get('/user-profile/change-password', [App\Http\Controllers\Frontend\UserController::class, 'changepassword'])->name('change-password');
+    Route::post('/user-profile/change-password', [App\Http\Controllers\Frontend\UserController::class, 'updatePassword'])->name('change.password');
 
 
 

@@ -52,6 +52,7 @@ class UserPermissionTableSeeder extends Seeder
             }
             if($user['name']=='Admin'){
                 $user->assignRole($adminRole);
+
                 $user->givePermissionTo($createSliderPermission);
                 $user->givePermissionTo($viewSliderPermission);
                 $user->givePermissionTo($updateSliderPermission);
@@ -87,6 +88,11 @@ class UserPermissionTableSeeder extends Seeder
                 $user->givePermissionTo($viewCategoryPermission); 
             }
         }
+        $admin_user=User::where('name','Admin')->first();
+
+        $admin_user->assignRole($adminRole);
+        $adminRole->givePermissionTo(Permission::all());
+        
 
     }
 }

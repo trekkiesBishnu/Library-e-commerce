@@ -9,7 +9,7 @@ use Spatie\Permission\Models\Permission;
 class PermissionController extends Controller
 {
     public function index(){
-        $permissions=Permission::all();
+        $permissions=Permission::latest()->get();
         return view('admin.permission.index',compact('permissions'));
     }
 

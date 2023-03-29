@@ -9,7 +9,8 @@
     <h2 class="card-header"> <strong class="text-success"> Hello </strong>{{Auth::user()->name}}! </h2>
     @endif
     <div class="card-header text-primary">{{ __('Dashboard') }}</div>
-    <div class="row">
+    <div class="row"
+    @can('view.category')>
         <div class="col-md-3">
             <div class="card card-body bg-warning text-white mb-3 ">
 
@@ -18,7 +19,8 @@
                 <a class="text-white btn" href="{{ route('category') }}">View</a>
             </div>
         </div>
-
+        @endcan
+    @can('view.book')
         <div class="col-md-3">
             <div class="card card-body bg-success text-white mb-3 ">
 
@@ -27,6 +29,8 @@
                 <a class="text-white btn" href="{{ route('book') }}">View</a>
             </div>
         </div>
+        @endcan
+        @can('view.book')
         <div class="col-md-3">
             <div class="card card-body bg-primary text-white mb-3 ">
 
@@ -35,6 +39,8 @@
                 <a class="text-white btn" href="{{ route('book') }}">View</a>
             </div>
         </div>
+        @endcan
+        @can('view.order')
         <div class="col-md-3">
             <div class="card card-body bg-success text-white mb-3 ">
                 <label for="">Order</label>
@@ -42,6 +48,8 @@
                 <a class="text-white btn" href="{{ route('orderList') }}">View</a>
             </div>
         </div>
+        @endcan
+        @can('view.order')
         <div class="col-md-3">
             <div class="card card-body bg-secondary text-white mb-3 ">
                 <label for="">Today Order</label>
@@ -49,6 +57,8 @@
                 <a class="text-white btn" href="{{ route('orderList') }}">View</a>
             </div>
         </div>
+        @endcan
+        @can('view.order')
         <div class="col-md-3">
             <div class="card card-body bg-dark text-white mb-3 ">
                 <label for="">Monthly Order</label>
@@ -56,6 +66,8 @@
                 <a class="text-white btn" href="{{ route('orderList') }}">View</a>
             </div>
         </div>
+        @endcan
+        @can('view.order')
         <div class="col-md-3">
             <div class="card card-body bg-primary text-white mb-3 ">
                 <label for="">Yearly Order</label>
@@ -63,6 +75,8 @@
                 <a class="text-white btn" href="{{ route('orderList') }}">View</a>
             </div>
         </div>
+        @endcan
+        @can('view.order')
         <div class="col-md-3">
             <div class="card card-body bg-primary text-white mb-3 ">
                 <label for="">Completed Order</label>
@@ -70,6 +84,7 @@
                 <a class="text-white btn" href="{{ route('orderList') }}">View</a>
             </div>
         </div>
+        @endcan
 
     </div>
 </div>

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
+use Spatie\Permission\Models\Permission;
 
 class RoleController extends Controller
 {
@@ -14,30 +16,40 @@ class RoleController extends Controller
     }
 
     public function create(){
-        return view('admin.role.create');
+        $permissions=Permission::get();
+        return view('admin.role.create',compact('permissions'));
     }
 
     public function store(Request $request){
+        // dd($request->all());
         $data=$request->validate([
             'name'=>'required|unique:roles,name',
         ]);
        
-        Role::create($data);
+      $role=Role::create($data);
+
+      $permissions=$request->permissions;
+      $role->syncPermissions($permissions);
         return redirect()->route('roles')->with('message','Role Created Successfully');
     }
     public function edit($id){
         $role=Role::find($id);
-        return view('admin.role.edit',compact('role'));
+        // dd($addPermissions);
+        $permissions=Permission::all();
+        return view('admin.role.edit',compact('role','permissions'));
     }
 
     public function update(Request $request,$id){
       $data= $request->validate([
-            'name'=>'required|unique:roles,name',
+            'name'=>'required',
         ]);
 
         $role=Role::find($id);
         if($role){
             $role->update($data);
+      $permissions=$request->permissions;
+      $role->syncPermissions($permissions);
+
             return redirect()->route('roles')->with('message','Role Updated Successfully');
         }
         else{

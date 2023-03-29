@@ -38,7 +38,7 @@ class BookController extends Controller
             'special'=>'nullable'
         ];
         $data=$request->validate($rules);
-        $this
+     
         $this->bookRepo->store($data);
         return redirect()->route('book')->with('message','Book Added Successfully');
     }

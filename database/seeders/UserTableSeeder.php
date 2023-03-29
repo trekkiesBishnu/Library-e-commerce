@@ -31,6 +31,7 @@ class UserTableSeeder extends Seeder
             $userRole=User::create($user);
             if($userRole['name']=='Admin'){
                 $userRole->assignRole(Role::where('name','Admin')->first());
+                
             }
             if($userRole['name']=='User'){
                 $userRole->assignRole(Role::where('name','User')->first());
